@@ -106,3 +106,25 @@ const renderGoods = (data) => {
 
 console.log(renderGoods(goods));
 
+
+const btnAddGoods = document.querySelector('.panel__add-goods');
+const overlay = document.querySelector('.overlay');
+const form = document.querySelector('.overlay__modal');
+const close = document.querySelector('.modal__close');
+
+btnAddGoods.addEventListener('click', () => {
+  overlay.classList.add('active');
+});
+
+overlay.addEventListener('click', () => {
+  overlay.classList.remove('active');
+});
+
+form.addEventListener('click', (e) => {
+  e.stopImmediatePropagation();
+});
+
+close.addEventListener('click', () => {
+  overlay.classList.remove('active');
+});
+
