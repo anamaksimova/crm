@@ -43,6 +43,7 @@ const goods = [
 const createRow = ({id, title, price, category,
   discont, count, units, images}) => {
   const tr = document.createElement('tr');
+  tr.classList.add('tr');
   const tdId = document.createElement('td');
   tdId.classList.add('table__cell');
   tdId.textContent = id;
@@ -95,13 +96,12 @@ const createRow = ({id, title, price, category,
 
   return tr;
 };
-
+const table = document.createElement('table');
 const renderGoods = (data) => {
-  const table = document.createElement('table');
   const rows = data.map(createRow);
   table.append(...rows);
 
-  return table;
+  return rows;
 };
 
 console.log(renderGoods(goods));
@@ -110,21 +110,27 @@ console.log(renderGoods(goods));
 const btnAddGoods = document.querySelector('.panel__add-goods');
 const overlay = document.querySelector('.overlay');
 const form = document.querySelector('.overlay__modal');
-const close = document.querySelector('.modal__close');
 
 btnAddGoods.addEventListener('click', () => {
   overlay.classList.add('active');
 });
 
-overlay.addEventListener('click', () => {
-  overlay.classList.remove('active');
+overlay.addEventListener('click', e => {
+  const target = e.target;
+  if (target === overlay ||
+  target.closest('.modal__close')) {
+    overlay.classList.remove('active');
+  }
 });
 
-form.addEventListener('click', (e) => {
-  e.stopImmediatePropagation();
+table.addEventListener('click', e => {
+  if (e.target.closest('.table__btn_del')) {
+    const [...goods] = goods.filter(
+        i => i.id != e.target.closest('.tr').firstElementChild.textContent);
+
+    e.target.closest('.tr').remove();
+    console.log(goods);
+  }
 });
 
-close.addEventListener('click', () => {
-  overlay.classList.remove('active');
-});
 
