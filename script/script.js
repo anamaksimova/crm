@@ -1,6 +1,6 @@
 'use scrict';
 
-const goods = [
+let goods = [
   {
     id: 1,
     title: 'Смартфон Xiaomi 11T 8/128GB',
@@ -54,8 +54,10 @@ const createRow = ({id, title, price, category,
   const span = document.createElement('span');
   span.classList.add('table__cell-id');
   span.textContent = `id: ${id}`;
+  
   tdName.textContent = title;
-  tdName.append(span);
+  tdName.insertAdjacentElement('afterbegin', span);
+  
 
 
   const tdCategory = document.createElement('td');
@@ -72,23 +74,23 @@ const createRow = ({id, title, price, category,
 
   const tdPriceOne = document.createElement('td');
   tdPriceOne.classList.add('table__cell');
-  tdPriceOne.textContent = price;
+  tdPriceOne.textContent = `$${price}`;
 
   const tdPriceTotal = document.createElement('td');
   tdPriceTotal.classList.add('table__cell');
-  tdPriceTotal.textContent = price * count;
+  tdPriceTotal.textContent = `$${price * count}`;
 
 
   const tdBtns = document.createElement('td');
   tdBtns.classList.add('table__cell', 'table__cell_btn-wrapper');
   const btnPic = document.createElement('button');
-  btnPic.textContent = images;
+
   btnPic.classList.add('table__btn', 'table__btn_pic');
   const btnEdit = document.createElement('button');
   btnEdit.classList.add('table__btn', 'table__btn_edit');
   const btnDel = document.createElement('button');
   btnDel.classList.add('table__btn', 'table__btn_del');
-  tdBtns.append(btnPic, btnPic, btnDel);
+  tdBtns.append(btnPic, btnEdit, btnDel);
 
 
   tr.append(tdId, tdName, tdCategory, tdQuantityName, tdNumberOfItems,
@@ -96,7 +98,8 @@ const createRow = ({id, title, price, category,
 
   return tr;
 };
-const table = document.createElement('table');
+
+const table = document.querySelector('.table__body');
 const renderGoods = (data) => {
   const rows = data.map(createRow);
   table.append(...rows);
@@ -104,7 +107,7 @@ const renderGoods = (data) => {
   return rows;
 };
 
-console.log(renderGoods(goods));
+renderGoods(goods);
 
 
 const btnAddGoods = document.querySelector('.panel__add-goods');
@@ -125,7 +128,7 @@ overlay.addEventListener('click', e => {
 
 table.addEventListener('click', e => {
   if (e.target.closest('.table__btn_del')) {
-    const [...goods] = goods.filter(
+     [...goods] = goods.filter(
         i => i.id != e.target.closest('.tr').firstElementChild.textContent);
 
     e.target.closest('.tr').remove();
