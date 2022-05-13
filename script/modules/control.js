@@ -93,5 +93,11 @@ export const tableControl = (goods, table) => {
 
       crmTotalPrice();
     }
+
+    if (e.target.closest('.table__btn_pic')) {
+      const urlPhoto = e.target.dataset.pic;
+      const win = open(urlPhoto, 'photo', `popup, width=800, height=600, 
+       top=${screen.height / 2 - 300}, left=${screen.width / 2 - 400}`);
+    }
   });
 };
