@@ -69,10 +69,37 @@ export const modalControl = (modalForm, modalCheckboxDiscount, btnAddGoods,
   });
 
 
+  const inputImg = document.querySelector('.modal__file');
+  const fieldset = document.querySelector('.modal__fieldset');
+  const preview = document.createElement('img');
+  preview.classList.add('preview');
+  const fileError = document.createElement('p');
   modalForm.addEventListener('change', e => {
     if (e.target === modalPrice || e.target === modalCount) {
       document.querySelector('.modal__total-price').textContent =
     crmTotalPrice() + modalCount.value * modalPrice.value;
+    }
+    if (e.target === inputImg) {
+      if (inputImg.files[0].size <= 1000) {
+        fileError.remove();
+        if (!fieldset.lastElementChild.classList.contains('preview') &&
+      inputImg.files.length > 0) {
+          console.log('size', inputImg.files[0].size);
+          const src = URL.createObjectURL(inputImg.files[0]);
+          preview.src = src;
+          fieldset.append(preview);
+        } else if (fieldset.lastElementChild.classList.contains('preview') &&
+      inputImg.files.length > 0) {
+          console.log('size', inputImg.files[0].size);
+          const src = URL.createObjectURL(inputImg.files[0]);
+          preview.src = src;
+        }
+      } else {
+        preview.remove();
+        fileError.style.color = 'red';
+        fileError.textContent = 'ИЗОБРАЖЕНИЕ НЕ ДОЛЖНО ПРЕВЫШАТЬ РАЗМЕР 1 МБ';
+        fieldset.append(fileError);
+      }
     }
   });
 };
