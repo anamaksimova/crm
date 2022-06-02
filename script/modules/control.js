@@ -27,9 +27,13 @@ export const modalControl = (modalForm, modalCheckboxDiscount, btnAddGoods,
     document.querySelector('.modal__total-price').textContent = crmTotalPrice();
   });
 
-
+  const preview = document.createElement('img');
+  preview.classList.add('preview', 'image-container');
+  const fileError = document.createElement('p');
   const closeModal = () => {
     overlay.classList.remove('active');
+    preview.style.display = 'none';
+    fileError.remove();
     modalForm.reset();
   };
 
@@ -71,26 +75,25 @@ export const modalControl = (modalForm, modalCheckboxDiscount, btnAddGoods,
 
   const inputImg = document.querySelector('.modal__file');
   const fieldset = document.querySelector('.modal__fieldset');
-  const preview = document.createElement('img');
-  preview.classList.add('preview');
-  const fileError = document.createElement('p');
+
+
   modalForm.addEventListener('change', e => {
     if (e.target === modalPrice || e.target === modalCount) {
       document.querySelector('.modal__total-price').textContent =
     crmTotalPrice() + modalCount.value * modalPrice.value;
     }
     if (e.target === inputImg) {
+      fileError.remove();
       if (inputImg.files[0].size <= 1000) {
-        fileError.remove();
+        preview.style.display = '';
+
         if (!fieldset.lastElementChild.classList.contains('preview') &&
       inputImg.files.length > 0) {
-          console.log('size', inputImg.files[0].size);
           const src = URL.createObjectURL(inputImg.files[0]);
           preview.src = src;
           fieldset.append(preview);
         } else if (fieldset.lastElementChild.classList.contains('preview') &&
       inputImg.files.length > 0) {
-          console.log('size', inputImg.files[0].size);
           const src = URL.createObjectURL(inputImg.files[0]);
           preview.src = src;
         }

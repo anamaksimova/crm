@@ -147,7 +147,7 @@
 .image-container {
   grid-area: file-add;
   position: relative;
-  display: none;
+  /* display: none; */
   width: 200px;
   height: 200px;
   margin: 0 auto;
