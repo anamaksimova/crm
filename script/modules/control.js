@@ -84,7 +84,7 @@ export const modalControl = (modalForm, modalCheckboxDiscount, btnAddGoods,
     }
     if (e.target === inputImg) {
       fileError.remove();
-      if (inputImg.files[0].size <= 1000) {
+      if (inputImg.files[0].size <= 1000000) {
         preview.style.display = '';
 
         if (!fieldset.lastElementChild.classList.contains('preview') &&
