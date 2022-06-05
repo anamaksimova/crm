@@ -15,6 +15,7 @@ modalErrorOverlay.insertAdjacentHTML('beforeend', `
 
 
 export const showError = (status, statusText) => {
+  // document.querySelector('.modal_first').append(modalErrorOverlay);
   document.body.append(modalErrorOverlay);
   modalErrorOverlay.classList.add('active');
   document.querySelector('.error_text').textContent = `${status}: ${statusText}`;

@@ -3,7 +3,7 @@ import {crmTotalPrice,
   addItemPage,
   renderGoodsFilter,
   renderGoods,
-  getElements} from './service.js';
+  getElements, URL} from './service.js';
 import {showModalDeleteConfirm,
   modalDeleteConfirmControl} from './modalDeleteConfirm.js';
 import {showError, modalErrorControl} from './modalError.js';
@@ -146,12 +146,12 @@ export const modalControl = (modalForm, modalCheckboxDiscount, btnAddGoods,
   });
 };
 const fetchDelete = async (id) => {
-  const answer = await fetch(`http://localhost:3001/api/goods/${id}`, {
+  const answer = await fetch(`${URL}goods/${id}`, {
     method: 'DELETE',
   });
 };
 const modalEdit = async (id) => {
-  const response = await fetch(`http://localhost:3001/api/goods/${id}`);
+  const response = await fetch(`${URL}goods/${id}`);
   const element = await response.json();
 
   modalInputDiscount.value = element.discount;
@@ -166,7 +166,7 @@ const modalEdit = async (id) => {
   preview.src = element.image;
 };
 const fetchEdit = async (id, item) => {
-  const answer = await fetch(`http://localhost:3001/api/goods/${id}`, {
+  const answer = await fetch(`${URL}goods/${id}`, {
     method: 'PATCH',
     body: JSON.stringify({
       title: item.title,
