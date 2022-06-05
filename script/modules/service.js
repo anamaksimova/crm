@@ -1,37 +1,8 @@
 import {createRow} from './createElements.js';
-export const goods = [
-  {
-    id: 1,
-    title: 'Смартфон Xiaomi 11T 8/128GB',
-    price: 27000,
-    category: 'mobile-phone',
-    discont: false,
-    count: 3,
-    units: 'шт',
-    images: {
-      small: 'img/smrtxiaomi11t-m.jpg',
-      big: 'img/smrtxiaomi11t-b.jpg',
-    },
-  },
-  {
-    id: 2,
-    title: 'Радиоуправляемый автомобиль Cheetan',
-    price: 4000,
-    category: 'toys',
-    discont: 5,
-    count: 1,
-    units: 'шт',
-    images: {
-      small: 'img/cheetancar-m.jpg',
-      big: 'img/cheetancar-b.jpg',
-    },
-  },
-];
 
 export const crmTotalPrice = () => {
   let totalPrice = 0;
   const trs = document.querySelectorAll('tr');
-  console.log('trs: ', trs);
   for (let tr = 1; tr < trs.length; tr++) {
     const count = trs[tr].children[4].textContent;
     const price = trs[tr].children[5].textContent.slice(1);
@@ -59,6 +30,11 @@ export const getElements = () => {
   const modalPrice = document.querySelector('#price');
   const modalCount = document.querySelector('#count');
   const table = document.querySelector('.table__body');
+  const modalCategory = document.querySelector('#category');
+  const modalName = document.querySelector('#name');
+  const modalDescription = document.querySelector('#description');
+  const modalUnits = document.querySelector('#units');
+
 
   return {
     modalInputDiscount,
@@ -69,20 +45,46 @@ export const getElements = () => {
     modalPrice,
     modalCount,
     table,
+    modalCategory,
+    modalName,
+    modalDescription,
+    modalUnits,
   };
 };
 
 
-export const addItemData = (item) => {
-  goods.push(item);
-  console.log('goods: ', goods);
+export const addItemData = async (item) => {
+  const fetchPOST = await fetch('http://localhost:3001/api/goods', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: item.title,
+      price: item.price,
+      description: item.description,
+      category: item.category,
+      discount: item.discount,
+      count: item.count,
+      units: item.units,
+      image: item.image,
+    }),
+    headers: {
+      'Content-Type': 'application/JSON',
+    },
+  });
+  const response = await fetchPOST.json();
+  const id = response.id;
+  return {id, fetchPOST};
 };
 
 export const addItemPage = (item, table) => {
   table.append(createRow(item));
 };
-
-export const renderGoods = (data, table) => {
+export const loadGoods = async () => {
+  const result = await fetch('http://localhost:3001/api/goods');
+  const goods = await result.json();
+  return goods;
+};
+export const renderGoods = async (table) => {
+  const data = await loadGoods();
   const rows = [];
   data.forEach(element => {
     const row = createRow(element);
@@ -92,4 +94,49 @@ export const renderGoods = (data, table) => {
 
   crmTotalPrice();
   return rows;
+};
+export const renderGoodsFilter = async (search, table) => {
+  
+  const data = await loadGoods();
+  console.log('data: ', data);
+  const rows = [];
+  const reg = search.toLowerCase();
+  if (reg === '') {
+    table.textContent = '';
+    renderGoods(table);
+  } else {
+    table.textContent = '';
+    data.forEach(element => {
+      const title = element.title.toLowerCase();
+      const category = element.category.toLowerCase();
+      if (title.match(reg) || category.match(reg)) {
+        const row = createRow(element);
+        table.append(row);
+        rows.push(row);
+      }
+    });
+  }
+
+  crmTotalPrice();
+  return rows;
+};
+
+export const loadCategories = async () => {
+  const result = await fetch('http://localhost:3001/api/category');
+  const categories = await result.json();
+  return categories;
+};
+export const categoryList = async () => {
+  const {modalCategory} = getElements();
+  modalCategory.setAttribute('list', 'category-list');
+
+  document.querySelector('.modal__label_category').insertAdjacentHTML(
+      'afterend', `<datalist id="category-list">
+    </datalist>`);
+  const datalist = document.querySelector('#category-list');
+  const data = await loadCategories();
+  data.forEach(element => {
+    datalist.insertAdjacentHTML(`beforeend`, `
+   <option value=${element}></option>`);
+  });
 };

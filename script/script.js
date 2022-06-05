@@ -1,5 +1,6 @@
 import {modalControl, tableControl} from './modules/control.js';
-import {goods, getElements, renderGoods} from './modules/service.js';
+import {
+   getElements, renderGoods, categoryList} from './modules/service.js';
 
 {
   const init = (selectorApp) => {
@@ -19,11 +20,13 @@ import {goods, getElements, renderGoods} from './modules/service.js';
     } = getElements(app);
     // функционал
 
-    renderGoods(goods, table);
-    tableControl(goods, table);
+
+    renderGoods(table);
+    tableControl(table);
     modalControl(modalForm, modalCheckboxDiscount, btnAddGoods,
         overlay, modalPrice, modalCount, table, modalInputDiscount);
   };
+  categoryList();
 
   window.crmInit = init;
 }

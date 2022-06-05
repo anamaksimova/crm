@@ -1,5 +1,5 @@
 export const createRow = ({id, title, price, category,
-  discont, count, units, images}) => {
+  discont, count, units, image}) => {
   const tr = document.createElement('tr');
   tr.classList.add('tr');
 
@@ -13,7 +13,7 @@ export const createRow = ({id, title, price, category,
   <td class="table__cell">$${price}</td>
   <td class="table__cell">$${price * count}</td>
   <td class="table__cell table__cell_btn-wrapper">
-    <button class="table__btn table__btn_pic" data-pic="../photo.jpg"></button>
+    <button class="table__btn table__btn_pic" data-pic="${image}"></button>
     <button class="table__btn table__btn_edit"></button>
     <button class="table__btn table__btn_del"></button>
   </td>
@@ -21,3 +21,4 @@ export const createRow = ({id, title, price, category,
 
   return tr;
 };
+
