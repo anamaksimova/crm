@@ -1,5 +1,5 @@
 import {createRow} from './createElements.js';
-export const URL = 'http://localhost:3001/api/';
+export const URLS = 'http://localhost:3001/api/';
 export const crmTotalPrice = () => {
   let totalPrice = 0;
   const trs = document.querySelectorAll('tr');
@@ -54,7 +54,7 @@ export const getElements = () => {
 
 
 export const addItemData = async (item) => {
-  const fetchPOST = await fetch(`${URL}goods`, {
+  const fetchPOST = await fetch(`${URLS}goods`, {
     method: 'POST',
     body: JSON.stringify({
       title: item.title,
@@ -79,7 +79,7 @@ export const addItemPage = (item, table) => {
   table.append(createRow(item));
 };
 export const loadGoods = async () => {
-  const result = await fetch(`${URL}goods`);
+  const result = await fetch(`${URLS}goods`);
   const goods = await result.json();
   return goods;
 };
@@ -122,7 +122,7 @@ export const renderGoodsFilter = async (search, table) => {
 };
 
 export const loadCategories = async () => {
-  const result = await fetch(`${URL}category`);
+  const result = await fetch(`${URLS}category`);
   const categories = await result.json();
   return categories;
 };
