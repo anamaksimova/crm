@@ -146,12 +146,12 @@ export const modalControl = (modalForm, modalCheckboxDiscount, btnAddGoods,
   });
 };
 const fetchDelete = async (id) => {
-  const answer = await fetch(`${URLS}goods/${id}`, {
+  const answer = await fetch(`${URLS}api/goods/${id}`, {
     method: 'DELETE',
   });
 };
 const modalEdit = async (id) => {
-  const response = await fetch(`${URLS}goods/${id}`);
+  const response = await fetch(`${URLS}api/goods/${id}`);
   const element = await response.json();
 
   modalInputDiscount.value = element.discount;
@@ -163,10 +163,10 @@ const modalEdit = async (id) => {
   modalDescription.value = element.description;
   itemModalId.textContent = `${id}`;
   preview.style.display = '';
-  preview.src = element.image;
+  preview.src =`${URLS}${element.image}/`;
 };
 const fetchEdit = async (id, item) => {
-  const answer = await fetch(`${URLS}goods/${id}`, {
+  const answer = await fetch(`${URLS}api/goods/${id}`, {
     method: 'PATCH',
     body: JSON.stringify({
       title: item.title,
@@ -206,7 +206,7 @@ export const tableControl = async (table) => {
     }
 
     if (e.target.closest('.table__btn_pic')) {
-      const urlPhoto = `http://localhost:3001/api/${e.target.dataset.pic}/`;
+      const urlPhoto = `${URLS}${e.target.dataset.pic}/`;
       const win = open(urlPhoto, 'photo', `popup, width=800, height=600, 
        top=${screen.height / 2 - 300}, left=${screen.width / 2 - 400}`);
     }
