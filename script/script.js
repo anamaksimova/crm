@@ -7,7 +7,6 @@ import {
     const div = document.querySelector('.container');
     div.id = 'app';
     const app = document.querySelector(selectorApp);
-
     const {
       modalInputDiscount,
       modalForm,

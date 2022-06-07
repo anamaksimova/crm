@@ -206,7 +206,7 @@ export const tableControl = async (table) => {
     }
 
     if (e.target.closest('.table__btn_pic')) {
-      const urlPhoto = e.target.dataset.pic;
+      const urlPhoto = `http://localhost:3001/api/${e.target.dataset.pic}/`;
       const win = open(urlPhoto, 'photo', `popup, width=800, height=600, 
        top=${screen.height / 2 - 300}, left=${screen.width / 2 - 400}`);
     }
